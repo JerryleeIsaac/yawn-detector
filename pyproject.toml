@@ -8,7 +8,7 @@ authors = ["Jerrylee Isaac Geronimo <jrgeronimo@up.edu.ph>"]
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
-dvc = "^2.9.3"
+dvc = {extras = ["gdrive"], version = "^2.9.3"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
