@@ -46,7 +46,7 @@ stages:
           model_criterion: CrossEntropy
           model_type: MobileNetV3
           model_params:
-            pretrained: false
+            pretrained: true
           optimizer_type: SGD
           optimizer_params:
             momentum: 0.9
@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: 74bdfcdf74ac630fbbef8960db8025b8
+      md5: 57b172a1344bc037ca3d443b59baf9d2
       size: 17022737
     - path: pipeline_outs/results/losses.json
-      md5: 5caef88eb99bad56a8bdf3d2602a77e9
-      size: 51190
+      md5: ca8f6f146c9790e7e15c11c9c29d8030
+      size: 52944
     - path: pipeline_outs/results/test-plots.json
-      md5: dd2dbf714d8f5c610114ba98ca893728
-      size: 1223
+      md5: c8320a8f0b864d33f5714bb053419f4e
+      size: 1228
     - path: pipeline_outs/results/test-results.json
-      md5: 0897463081ffd5db314da2af95a889f0
-      size: 120
+      md5: 8b91da995e93f61a52de1b5587e0d8fa
+      size: 121
     - path: pipeline_outs/results/train-plots.json
-      md5: a3edbe3cc9c02f853bbbb1d88be2d5a3
-      size: 1222
+      md5: 3dbe7d3aec51cdfdcc315e79a7ba3ad6
+      size: 1221
     - path: pipeline_outs/results/train-results.json
-      md5: 48032a267b8e50fff6ca3fb915838927
-      size: 155
+      md5: 5855a1b3c64337c12f197bc5ed1b21df
+      size: 156
