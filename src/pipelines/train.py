@@ -31,6 +31,18 @@ def load_model(
         model = tv.models.mobilenet_v3_large(
             pretrained=model_params["pretrained"])
         model.classifier[-1] = torch.nn.Linear(1280, 2)
+    elif model_type == "ResNet50":
+        model = tv.models.resnet50(pretrained=model_params["pretrained"])
+        model.fc = torch.nn.Linear(in_features=2048, out_features=2)
+    elif model_type == "ResNet34":
+        model = tv.models.resnet34(pretrained=model_params["pretrained"])
+        model.fc = torch.nn.Linear(in_features=512, out_features=2)
+    elif model_type == "ResNet101":
+        model = tv.models.resnet101(pretrained=model_params["pretrained"])
+        model.fc = torch.nn.Linear(in_features=2048, out_features=2)
+    elif model_type == "ResNet152":
+        model = tv.models.resnet101(pretrained=model_params["pretrained"])
+        model.fc = torch.nn.Linear(in_features=2048, out_features=2)
 
     model = model.to(device)
 
