@@ -10,6 +10,13 @@ import cv2
 from loguru import logger
 from tqdm import tqdm
 import numpy as np
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+)
+
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -48,46 +55,57 @@ def hwc_to_chw(image):
 	
 
 class YawnVideoFrameDataset(torch.utils.data.IterableDataset):
-	def __init__(self, data_files, batch_size, transforms=[]):
+	def __init__(self, data_files, face_reco_batch_size, transforms=[]):
 		super(YawnVideoFrameDataset).__init__()
 		self.data_files = data_files
 		self.transforms = transforms
-		self.batch_size = batch_size
+		self.face_reco_batch_size = face_reco_batch_size
 	
 	@staticmethod
-	def frame_generator(data_files, batch_size, transforms=[]):
+	def frame_generator(data_files, face_reco_batch_size, transforms=[]):
 		for video_filename, class_label in data_files:
 			capture = cv2.VideoCapture(video_filename)
+			image_store = []
 			while capture.isOpened():
 				success, image = capture.read()
 
+				if success:
+					image_store.append(image)
+	
+				if success and len(image_store) < face_reco_batch_size:
+					continue
+
+				# face_locations = face_recognition.face_locations(image, model="cnn")
+				# print(f"Image store length: {len(image_store)}")
+				batch_face_locations = face_recognition.batch_face_locations(image_store)
+				for image, face_locations in zip(image_store, batch_face_locations):
+					if not face_locations:
+						continue
+					top, right, bottom, left = face_locations[0]
+					image = image[top:bottom, left:right] 
+
+					for transform in transforms:
+						image = transform(image)
+
+					yield image, LABEL_ENCODINGS[class_label]
+				image_store = []
+
 				if not success:
 					break
-				
-				face_locations = face_recognition.face_locations(image, model="cnn")
-				if not face_locations:
-					continue
-				top, right, bottom, left = face_locations[0]
-				image = image[top:bottom, left:right] 
-
-				for transform in transforms:
-					image = transform(image)
-
-				yield image, LABEL_ENCODINGS[class_label]
 
 			capture.release()
 	
 	def __iter__(self):
 		worker_info = torch.utils.data.get_worker_info()
 		if not worker_info:
-			return self.frame_generator(self.data_files, self.batch_size, self.transforms)
+			return self.frame_generator(self.data_files, self.face_reco_batch_size, self.transforms)
 		
 		per_worker = int(math.ceil(len(self.data_files) / float(worker_info.num_workers)))
 		worker_id = worker_info.id
 		iter_start = worker_id * per_worker
 		iter_end = min(iter_start + per_worker, len(self.data_files))
 
-		return self.frame_generator(self.data_files[iter_start:iter_end], self.batch_size, self.transforms)
+		return self.frame_generator(self.data_files[iter_start:iter_end], self.face_reco_batch_size, self.transforms)
 
 
 def load_model(
@@ -120,8 +138,16 @@ def load_model(
 
 	return model, criterion, optimizer, scheduler
 
+def get_metrics(y_actuals, y_preds):
+	return {
+		"accuracy": accuracy_score(y_actuals, y_preds),
+		"precision": precision_score(y_actuals, y_preds),
+		"recall": recall_score(y_actuals, y_preds),
+		"f1": f1_score(y_actuals, y_preds),
+	}
 
-def train(data_loader, model, criterion, optimizer, scheduler, device):
+
+def train_model(data_loader, model, criterion, optimizer, scheduler, device):
 	model.train()
 
 	y_actuals, y_preds = [], []
@@ -144,13 +170,15 @@ def train(data_loader, model, criterion, optimizer, scheduler, device):
 
 			y_actuals.extend(preds.cpu().numpy().tolist())
 			y_preds.extend(labels.data.cpu().numpy().tolist())
+		logger.debug("Batch run done")
 
-	# epoch_results = eval_utils.evaluate(y_actuals, y_preds)
-	# learning_rate = optimizer.param_groups[0]["lr"]
+	epoch_results = get_metrics(y_actuals, y_preds)
+	learning_rate = optimizer.param_groups[0]["lr"]
 
-	# scheduler.step(epoch_results["f1_score"])
-	# print(epoch_results, learning_rate)
+	scheduler.step(epoch_results["f1"])
+	logger.info(f"Epoch results: {epoch_results}, learning rate: {learning_rate}")
 
+	return epoch_results
 	
 def main(config):
 	logger.info(f"Getting data files from {config['split_dir']}")
@@ -163,10 +191,10 @@ def main(config):
 	)
 
 	logger.info("Creating datasets")
-	train_dataset = YawnVideoFrameDataset(train_data_files, config["batch_size"], transforms=[
+	train_dataset = YawnVideoFrameDataset(train_data_files, config["face_reco_batch_size"], transforms=[
 		resize_image((config["image_size"], config["image_size"])), hwc_to_chw, normalize_image, 
 	])
-	test_dataset = YawnVideoFrameDataset(test_data_files, config["batch_size"], transforms=[
+	test_dataset = YawnVideoFrameDataset(test_data_files, config["face_reco_batch_size"], transforms=[
 		resize_image((config["image_size"], config["image_size"])), hwc_to_chw, normalize_image, 
 	])
 
@@ -185,11 +213,22 @@ def main(config):
 	)
 
 	logger.info("Training model")
-	train(train_dataloader, model, criterion, optimizer, scheduler, DEVICE)
+
+
+	best_score = 0
+	saved_model = model
+	for i in range(config["epochs"]):
+		epoch_results = train_model(train_dataloader, model, criterion, optimizer, scheduler, DEVICE)
+
+		# save best model
+		# if epoch_results["f1"] > best_score:
+		# 	best_score = epoch_results["f1"]
+
 
 
 if __name__ == "__main__":
 	main({
+		"face_reco_batch_size": 16,
 		"batch_size": 128,
 		"num_workers": 0, # 0 for GPU usage
 		"image_size": 64,
@@ -204,5 +243,6 @@ if __name__ == "__main__":
 			"gamma": 0.1,
 			"step_size": 7,
 			"momentum": 0.9
-		}
+		},
+		"epochs": 1
 	})
