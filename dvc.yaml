@@ -20,6 +20,15 @@ stages:
     metrics:
     - pipeline_outs/results/train-results.json:
         cache: false
+    - pipeline_outs/results/test-results.json:
+        cache: false
+    plots:
+    - pipeline_outs/results/losses.json:
+        cache: false
+    - pipeline_outs/results/train-plots.json:
+        cache: false
+    - pipeline_outs/results/test-plots.json:
+        cache: false
   # evaluate:
   #   cmd: python -m src.pipelines.evaluate --params params.yaml
   #   deps:

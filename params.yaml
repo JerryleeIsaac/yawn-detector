@@ -39,13 +39,20 @@ train:
     factor: 0.1
   
   input_size: 64
+  epochs: 2
+  batch_size: 512
+  n_workers: 8
 
   ################################
   # output
   model_dir: pipeline_outs/models
-  model_file: pipeline_outs/models/
-  results_dir: pipeline_outs/results/latest-model.pth
-  results_file: pipeline_outs/results/train-results.json
+  model_file: pipeline_outs/models/latest-model.pth
+  results_dir: pipeline_outs/results/
+  train_results_file: pipeline_outs/results/train-results.json
+  train_plots_file: pipeline_outs/results/train-plots.json
+  test_results_file: pipeline_outs/results/test-results.json
+  test_plots_file: pipeline_outs/results/test-plots.json
+  losses_file: pipeline_outs/results/losses.json
 
 # evaluate:
 #   ################################
