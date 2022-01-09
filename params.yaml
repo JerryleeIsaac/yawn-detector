@@ -24,7 +24,7 @@ train:
   test_data_files_zip: pipeline_outs/faces/test.zip
 
   model_criterion: CrossEntropy
-  model_type: MobileNetV3
+  model_type: ResNet50
   model_params:
     pretrained: true
   optimizer_type: SGD
