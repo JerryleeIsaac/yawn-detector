@@ -8,8 +8,8 @@ stages:
       size: 1462746813
       nfiles: 481
     - path: src/pipelines/preprocess.py
-      md5: 693deba8900e11b5d98a1ce06a6beb9f
-      size: 2977
+      md5: 39fe2cd469d1362529c69f17f5fcf4b7
+      size: 3452
     params:
       params.yaml:
         preprocess:
@@ -18,9 +18,11 @@ stages:
           face_reco_batch_size: 16
           data_files_dir: pipeline_outs/faces
           train_data_files_dir: pipeline_outs/faces/train
+          train_data_files_zip: pipeline_outs/faces/train.zip
           test_data_files_dir: pipeline_outs/faces/test
+          test_data_files_zip: pipeline_outs/faces/test.zip
     outs:
     - path: pipeline_outs/faces
-      md5: 19e244045d33c3ce99ab20fda9307f79.dir
-      size: 1045344
-      nfiles: 101
+      md5: 08af58202fd1b65b592ff81a14406bb0.dir
+      size: 2780343961
+      nfiles: 2
