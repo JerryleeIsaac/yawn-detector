@@ -1,0 +1,43 @@
+preprocess:
+  ##########################
+  # input
+  split_dir: data/split
+  test_size: 0.3
+  face_reco_batch_size: 16
+
+  # archive_dest: pipeline_outs/archive_tmp
+
+  ###########################
+  # output
+  data_files_dir: pipeline_outs/faces
+  train_data_files_dir: pipeline_outs/faces/train
+  test_data_files_dir: pipeline_outs/faces/test
+
+# train:
+#   ################################
+#   # input
+#   data_file: pipeline_outs/split/train.csv.gz
+#   model_params: 
+#     classifier_type: linear
+#   model_type: nbsvm
+
+#   ################################
+#   # output
+#   model_dir: pipeline_outs/models
+#   model_file: pipeline_outs/models/best-model.joblib
+#   results_dir: pipeline_outs/results
+#   results_file: pipeline_outs/results/train-results.json
+
+# evaluate:
+#   ################################
+#   # input
+#   data_file: pipeline_outs/split/test.csv.gz
+#   model_file: pipeline_outs/models/best-model.joblib
+
+#   ################################
+#   # output
+#   model_params_file: pipeline_outs/models/model-params.json
+#   results_dir: pipeline_outs/results
+#   results_file: pipeline_outs/results/test-results.json
+#   prediction_results_file: pipeline_outs/results/predictions.csv
+#   pr_curve_file: pipeline_outs/results/precision_recall_curve.csv

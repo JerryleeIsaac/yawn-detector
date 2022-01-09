@@ -1,0 +1,38 @@
+stages:
+  preprocess:
+    cmd: python -m src.pipelines.preprocess --params params.yaml
+    deps:
+    - data/split
+    - src/pipelines/preprocess.py
+    outs:
+    - pipeline_outs/faces
+    params:
+    - preprocess
+  # train:
+  #   cmd: python -m src.pipelines.train --params params.yaml
+  #   deps:
+  #   - pipeline_outs/split
+  #   - src/pipelines/train.py
+  #   params:
+  #   - train
+  #   outs:
+  #   - pipeline_outs/models/best-model.joblib
+  #   metrics:
+  #   - pipeline_outs/results/train-results.json:
+  #       cache: false
+  # evaluate:
+  #   cmd: python -m src.pipelines.evaluate --params params.yaml
+  #   deps:
+  #   - pipeline_outs/split
+  #   - src/pipelines/evaluate.py
+  #   - pipeline_outs/models/best-model.joblib
+  #   params:
+  #   - evaluate
+  #   outs:
+  #   - pipeline_outs/models/model-params.json
+  #   metrics:
+  #   - pipeline_outs/results/test-results.json:
+  #       cache: false
+  #   plots:
+  #   - pipeline_outs/results/predictions.csv
+  #   - pipeline_outs/results/precision_recall_curve.csv

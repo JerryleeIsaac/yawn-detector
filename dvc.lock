@@ -1,0 +1,26 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python -m src.pipelines.preprocess --params params.yaml
+    deps:
+    - path: data/split
+      md5: 1daa05ef7dece01c33c30f9af4f2ade0.dir
+      size: 1462746813
+      nfiles: 481
+    - path: src/pipelines/preprocess.py
+      md5: 693deba8900e11b5d98a1ce06a6beb9f
+      size: 2977
+    params:
+      params.yaml:
+        preprocess:
+          split_dir: data/split
+          test_size: 0.3
+          face_reco_batch_size: 16
+          data_files_dir: pipeline_outs/faces
+          train_data_files_dir: pipeline_outs/faces/train
+          test_data_files_dir: pipeline_outs/faces/test
+    outs:
+    - path: pipeline_outs/faces
+      md5: 19e244045d33c3ce99ab20fda9307f79.dir
+      size: 1045344
+      nfiles: 101
