@@ -15,20 +15,37 @@ preprocess:
   test_data_files_dir: pipeline_outs/faces/test
   test_data_files_zip: pipeline_outs/faces/test.zip
 
-# train:
-#   ################################
-#   # input
-#   data_file: pipeline_outs/split/train.csv.gz
-#   model_params: 
-#     classifier_type: linear
-#   model_type: nbsvm
+train:
+  ################################
+  # input
+  train_data_files_dir: pipeline_outs/faces/train
+  train_data_files_zip: pipeline_outs/faces/train.zip
+  test_data_files_dir: pipeline_outs/faces/test
+  test_data_files_zip: pipeline_outs/faces/test.zip
 
-#   ################################
-#   # output
-#   model_dir: pipeline_outs/models
-#   model_file: pipeline_outs/models/best-model.joblib
-#   results_dir: pipeline_outs/results
-#   results_file: pipeline_outs/results/train-results.json
+  model_criterion: CrossEntropy
+  model_type: MobileNetV3
+  model_params:
+    pretrained: true
+  optimizer_type: SGD
+  optimizer_params:
+    momentum: 0.9
+    learning_rate: 0.001
+  scheduler_type: StepLR
+  scheduler_params:
+    step_size: 7
+    patience: 0.7
+    gamma: 0.1
+    factor: 0.1
+  
+  input_size: 64
+
+  ################################
+  # output
+  model_dir: pipeline_outs/models
+  model_file: pipeline_outs/models/
+  results_dir: pipeline_outs/results/latest-model.pth
+  results_file: pipeline_outs/results/train-results.json
 
 # evaluate:
 #   ################################

@@ -8,18 +8,18 @@ stages:
     - pipeline_outs/faces
     params:
     - preprocess
-  # train:
-  #   cmd: python -m src.pipelines.train --params params.yaml
-  #   deps:
-  #   - pipeline_outs/split
-  #   - src/pipelines/train.py
-  #   params:
-  #   - train
-  #   outs:
-  #   - pipeline_outs/models/best-model.joblib
-  #   metrics:
-  #   - pipeline_outs/results/train-results.json:
-  #       cache: false
+  train:
+    cmd: python -m src.pipelines.train --params params.yaml
+    deps:
+    - pipeline_outs/faces
+    - src/pipelines/train.py
+    params:
+    - train
+    outs:
+    - pipeline_outs/models/latest-model.pth
+    metrics:
+    - pipeline_outs/results/train-results.json:
+        cache: false
   # evaluate:
   #   cmd: python -m src.pipelines.evaluate --params params.yaml
   #   deps:
