@@ -34,8 +34,8 @@ stages:
       size: 2780343961
       nfiles: 2
     - path: src/pipelines/train.py
-      md5: 436fb2c7340de1ec67b8a1e9b9d32a48
-      size: 9092
+      md5: 36347bf03778c5a27005dae4efe4a3e9
+      size: 9143
     params:
       params.yaml:
         train:
@@ -47,19 +47,19 @@ stages:
           model_type: MobileNetV3
           model_params:
             pretrained: true
-          optimizer_type: SGD
+          optimizer_type: Adam
           optimizer_params:
             momentum: 0.9
             learning_rate: 0.001
-          scheduler_type: StepLR
+          scheduler_type: ReduceLROnPlateau
           scheduler_params:
             step_size: 7
-            patience: 0.7
+            patience: 7
             gamma: 0.1
             factor: 0.1
           input_size: 64
-          epochs: 2
-          batch_size: 512
+          epochs: 10
+          batch_size: 1024
           n_workers: 8
           model_dir: pipeline_outs/models
           model_file: pipeline_outs/models/latest-model.pth
@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: 9c2d1f7175a0c045be3ac6fc4948b907
+      md5: a8b7020827330107ae92f983f05dba3d
       size: 17022737
     - path: pipeline_outs/results/losses.json
-      md5: 1d627195d64443bba6edb68fe7246887
-      size: 3264
+      md5: aa13262db6b1b099b327d2aadb1f40e2
+      size: 1870
     - path: pipeline_outs/results/test-plots.json
-      md5: 75eded0cdaf10907b8e243b40c07a76d
-      size: 189
+      md5: 1e3c7ea089b85a52dd635ed6dc965b4a
+      size: 1125
     - path: pipeline_outs/results/test-results.json
-      md5: 09bc197389276f489dac2d2ec25186d9
-      size: 76
+      md5: f065bfb76c9096dad1aa97b068c8d721
+      size: 109
     - path: pipeline_outs/results/train-plots.json
-      md5: 196f90efbc9b3325b6faf4d862a8054b
-      size: 200
+      md5: f04281f96d907bdf7d2fc7e4c34259ab
+      size: 1229
     - path: pipeline_outs/results/train-results.json
-      md5: f42858bb9d39a0e3a776b58da45eef4d
-      size: 112
+      md5: 50dc3ab635f31152862699f7f3fa286c
+      size: 143

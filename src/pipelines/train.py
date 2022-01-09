@@ -15,6 +15,7 @@ import shutil
 import os
 import json
 from tqdm import tqdm
+import numpy as np
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -115,7 +116,7 @@ def train_model(data_loader, model, criterion, optimizer, scheduler, device):
     learning_rate = optimizer.param_groups[0]["lr"]
 
     scheduler.step(epoch_results["f1"])
-    logger.info(f"Epoch Train results: {epoch_results}, learning rate: {learning_rate}")
+    logger.info(f"Epoch Train results: {epoch_results}, learning rate: {learning_rate} average loss: {np.mean(losses)}")
 
     return epoch_results, losses
 
