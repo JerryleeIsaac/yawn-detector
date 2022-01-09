@@ -11,7 +11,9 @@ preprocess:
   # output
   data_files_dir: pipeline_outs/faces
   train_data_files_dir: pipeline_outs/faces/train
+  train_data_files_zip: pipeline_outs/faces/train.zip
   test_data_files_dir: pipeline_outs/faces/test
+  test_data_files_zip: pipeline_outs/faces/test.zip
 
 # train:
 #   ################################

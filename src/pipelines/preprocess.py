@@ -6,6 +6,8 @@ import face_recognition
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 import os
+from zipfile import ZipFile
+import shutil
 
 
 LABEL_ENCODINGS = {
@@ -69,22 +71,38 @@ def main(config):
 		cv2.imwrite(filename, image)
 		image_files.append(filename)
 		labels.append(label)
-
+		 
 	logger.info("Splitting train and test data")
 	train_image_files, test_image_files = train_test_split(
 		image_files, test_size=config["test_size"], 
 		stratify=labels
 	)
 
+	train_data_files = []
 	for filename in train_image_files:
 		new_filename = filename.replace(config["data_files_dir"], config["train_data_files_dir"])
 		logger.info(f"Renaming {filename} to {new_filename}")
 		os.renames(filename, new_filename)
+		train_data_files.append(new_filename)
 
+	with ZipFile(config["train_data_files_zip"], "w") as zip:
+		for filename in train_data_files:
+			zip.write(filename)
+
+	shutil.rmtree(config["train_data_files_dir"])
+
+	test_data_files = []
 	for filename in test_image_files:
 		new_filename = filename.replace(config["data_files_dir"], config["test_data_files_dir"])
 		logger.info(f"Renaming {filename} to {new_filename}")
 		os.renames(filename, new_filename)
+		test_data_files.append(new_filename)
+
+	with ZipFile(config["test_data_files_zip"], "w") as zip:
+		for filename in test_data_files:
+			zip.write(filename)
+
+	shutil.rmtree(config["test_data_files_dir"])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Preprocess video streams into face image files")
