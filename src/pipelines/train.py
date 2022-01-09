@@ -19,6 +19,26 @@ import numpy as np
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+def make_weights_for_balanced_classes(images, nclasses):                        
+    count = [0] * nclasses                                                      
+    for item in images:                                                         
+        count[item[1]] += 1                                                     
+    weight_per_class = [0.] * nclasses                                      
+    N = float(sum(count))                                                   
+    for i in range(nclasses):                                                   
+        weight_per_class[i] = N/float(count[i])                                 
+    weight = [0] * len(images)                                              
+    for idx, val in enumerate(images):                                          
+        weight[idx] = weight_per_class[val[1]]                                  
+    return weight
+
+def get_weighted_random_sampler(dataset):
+    weights = make_weights_for_balanced_classes(dataset.imgs, len(dataset.classes))
+    weights = torch.DoubleTensor(weights)
+    sampler = torch.utils.data.sampler.WeightedRandomSampler(weights, len(weights))
+    
+    return sampler
+
 
 def load_model(
 		model_type,
@@ -181,13 +201,18 @@ def clean_data_files(data_dir):
     logger.info(f"Cleaning {data_dir}")
     shutil.rmtree(data_dir)
 
-def get_dataloader(data_dir, transforms, batch_size, n_workers):
+def get_dataloader(split_type, data_dir, transforms, batch_size, n_workers):
     logger.info(f"Getting data loader for {data_dir}")
     dataset = tv.datasets.ImageFolder(data_dir, transform=transforms)
+    sampler=None
+    if split_type == "train":
+        sampler = get_weighted_random_sampler(dataset)
+
     return torch.utils.data.DataLoader(
         dataset,
         batch_size=batch_size,
         num_workers=n_workers,
+        sampler=sampler
     )
 
 def save_results(results, results_dir, results_file):
@@ -229,12 +254,14 @@ def main(config):
 
     transforms = get_transforms(config["input_size"])
     train_dataloader = get_dataloader(
+        "train",
         config["train_data_files_dir"],
         transforms["train"],
         config["batch_size"],
         config["n_workers"]
     )
     test_dataloader = get_dataloader(
+        "test",
         config["test_data_files_dir"],
         transforms["test"],
         config["batch_size"],
@@ -249,11 +276,13 @@ def main(config):
     best_weights = model.state_dict()
 
     since = time.time()
-    for _ in range(config["epochs"]):
+    for i in range(config["epochs"]):
+        logger.info(f"Epoch {i+1}: Training model")
         train_result, losses = train_model(train_dataloader, model, criterion, optimizer, scheduler, DEVICE)
         losses.extend(losses)
         train_results.append(train_result)
 
+        logger.info(f"Epoch {i+1}: Evaluating model")
         test_result = evaluate_model(test_dataloader, model, DEVICE)
         test_results.append(test_result)
 
