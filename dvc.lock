@@ -34,8 +34,8 @@ stages:
       size: 2780343961
       nfiles: 2
     - path: src/pipelines/train.py
-      md5: 36347bf03778c5a27005dae4efe4a3e9
-      size: 9143
+      md5: 224656df5beaea100316a099e3784682
+      size: 11311
     params:
       params.yaml:
         train:
@@ -46,7 +46,7 @@ stages:
           model_criterion: CrossEntropy
           model_type: MobileNetV3
           model_params:
-            pretrained: true
+            pretrained: false
           optimizer_type: Adam
           optimizer_params:
             momentum: 0.9
@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: a8b7020827330107ae92f983f05dba3d
+      md5: ed8391bf868f5e47e927b207f75e98b4
       size: 17022737
     - path: pipeline_outs/results/losses.json
-      md5: aa13262db6b1b099b327d2aadb1f40e2
-      size: 1870
+      md5: b0bfb829c15b9995e4792247dc506a24
+      size: 5956
     - path: pipeline_outs/results/test-plots.json
-      md5: 1e3c7ea089b85a52dd635ed6dc965b4a
-      size: 1125
+      md5: 1c688f8dffcbd25db4126fa0be7a4a57
+      size: 1044
     - path: pipeline_outs/results/test-results.json
       md5: f065bfb76c9096dad1aa97b068c8d721
       size: 109
     - path: pipeline_outs/results/train-plots.json
-      md5: f04281f96d907bdf7d2fc7e4c34259ab
-      size: 1229
+      md5: 3ad47b4ccab9b00060b3f78379e07d27
+      size: 1240
     - path: pipeline_outs/results/train-results.json
-      md5: 50dc3ab635f31152862699f7f3fa286c
-      size: 143
+      md5: b31628a6ffdf961834401076cf170b98
+      size: 141
