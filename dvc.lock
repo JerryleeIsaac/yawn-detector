@@ -47,7 +47,7 @@ stages:
           model_type: MobileNetV3
           model_params:
             pretrained: false
-          optimizer_type: Adam
+          optimizer_type: SGD
           optimizer_params:
             momentum: 0.9
             learning_rate: 0.001
@@ -57,9 +57,9 @@ stages:
             patience: 7
             gamma: 0.1
             factor: 0.1
-          input_size: 64
+          input_size: 128
           epochs: 10
-          batch_size: 1024
+          batch_size: 128
           n_workers: 8
           model_dir: pipeline_outs/models
           model_file: pipeline_outs/models/latest-model.pth
@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: ed8391bf868f5e47e927b207f75e98b4
+      md5: 74bdfcdf74ac630fbbef8960db8025b8
       size: 17022737
     - path: pipeline_outs/results/losses.json
-      md5: b0bfb829c15b9995e4792247dc506a24
-      size: 5956
+      md5: 5caef88eb99bad56a8bdf3d2602a77e9
+      size: 51190
     - path: pipeline_outs/results/test-plots.json
-      md5: 1c688f8dffcbd25db4126fa0be7a4a57
-      size: 1044
+      md5: dd2dbf714d8f5c610114ba98ca893728
+      size: 1223
     - path: pipeline_outs/results/test-results.json
-      md5: f065bfb76c9096dad1aa97b068c8d721
-      size: 109
+      md5: 0897463081ffd5db314da2af95a889f0
+      size: 120
     - path: pipeline_outs/results/train-plots.json
-      md5: 3ad47b4ccab9b00060b3f78379e07d27
-      size: 1240
+      md5: a3edbe3cc9c02f853bbbb1d88be2d5a3
+      size: 1222
     - path: pipeline_outs/results/train-results.json
-      md5: b31628a6ffdf961834401076cf170b98
-      size: 141
+      md5: 48032a267b8e50fff6ca3fb915838927
+      size: 155
