@@ -24,13 +24,9 @@ dev: ## Install dev requirements
 run: dev ## Run yawn detector app
 	streamlit run app.py
 
-# docker: requirements.txt ## Create docker image
-# 	docker build -t yawn-detector .
 
+plots: ## Generate plots
+	bash generate_plots.sh
 
-# results_export: ## Export results to CSV file
-# 	dvc exp show -T --include-params train.model_params.classifier_type --csv --precision 4 > results.csv
-
-# plots: ## Generate plots for current revision
-# 	dvc plots show --template confusion pipeline_outs/results/predictions.csv -x actual -y predicted -o dvc_plots/confusion_matrix
-# 	dvc plots show --template smooth pipeline_outs/results/precision_recall_curve.csv -x recall -y precision -o dvc_plots/precision_recall_curve
+results: ## Show experiment results
+	dvc exp show -T
