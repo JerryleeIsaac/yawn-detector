@@ -7,12 +7,12 @@ authors = ["Jerrylee Isaac Geronimo <jrgeronimo@up.edu.ph>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 opencv-python = "^4.5.5"
-face-recognition = "^1.3.0"
 matplotlib = "^3.5.1"
 sklearn = "^0.0"
 loguru = "^0.5.3"
 pandas = "^1.3.5"
 streamlit = "^1.3.1"
+streamlit-webcam-example = "^0.1.0"
 
 [tool.poetry.dev-dependencies]
 dvc = {extras = ["gdrive"], version = "^2.9.3"}

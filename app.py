@@ -8,6 +8,7 @@ from loguru import logger
 import os
 from PIL import Image
 from webcam import webcam
+import dlib
 
 
 MODEL_FILE = "./pipeline_outs/models/latest-model.pth"
@@ -20,7 +21,7 @@ fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 def load_model(model_file):
 	model = tv.models.resnet50()
 	model.fc = torch.nn.Linear(in_features=2048, out_features=2)
-	model.load_state_dict(torch.load(model_file))
+	model.load_state_dict(torch.load(model_file, map_location=DEVICE))
 	model.to(DEVICE)
 	model.eval()
 
