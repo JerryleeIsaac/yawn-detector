@@ -138,7 +138,7 @@ def train_model(data_loader, model, criterion, optimizer, scheduler, device):
             loss = criterion(outputs, labels)
 
             loss.backward()
-            losses.append(loss.item())
+            losses.append({"loss": loss.item()})
             optimizer.step()
 
             y_actuals.extend(labels.cpu().numpy().tolist())
