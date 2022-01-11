@@ -24,7 +24,7 @@ train:
   test_data_files_zip: pipeline_outs/faces/test.zip
 
   model_criterion: CrossEntropy
-  model_type: ResNet50
+  model_type: ResNet101
   model_params:
     pretrained: true
   optimizer_type: SGD
@@ -37,10 +37,10 @@ train:
     patience: 7
     gamma: 0.1
     factor: 0.1
-  
+
   input_size: 128
-  epochs: 10
-  batch_size: 128
+  epochs: 20
+  batch_size: 64
   n_workers: 8
 
   ################################

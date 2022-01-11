@@ -34,8 +34,8 @@ stages:
       size: 2780343961
       nfiles: 2
     - path: src/pipelines/train.py
-      md5: 224656df5beaea100316a099e3784682
-      size: 11311
+      md5: 5860b8873b113534c117336b97416f12
+      size: 11340
     params:
       params.yaml:
         train:
@@ -44,7 +44,7 @@ stages:
           test_data_files_dir: pipeline_outs/faces/test
           test_data_files_zip: pipeline_outs/faces/test.zip
           model_criterion: CrossEntropy
-          model_type: ResNet50
+          model_type: ResNet101
           model_params:
             pretrained: true
           optimizer_type: SGD
@@ -58,8 +58,8 @@ stages:
             gamma: 0.1
             factor: 0.1
           input_size: 128
-          epochs: 10
-          batch_size: 128
+          epochs: 20
+          batch_size: 64
           n_workers: 8
           model_dir: pipeline_outs/models
           model_file: pipeline_outs/models/latest-model.pth
@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: 6a5a5caf286589d3f5ebae586288fc73
-      size: 94365249
+      md5: 8bc4005d755e970fd60393a86c49975e
+      size: 170643229
     - path: pipeline_outs/results/losses.json
-      md5: 5da5a05f8331b8159ec51846b939e238
-      size: 53546
+      md5: f50f2d506fc4caf9df04cbd0e21381ce
+      size: 156652
     - path: pipeline_outs/results/test-plots.json
-      md5: 12f12205d793732e3fd9bd647fe544c7
-      size: 1210
+      md5: 4bd6b066b8c80db3efb04f10d99cb733
+      size: 2449
     - path: pipeline_outs/results/test-results.json
-      md5: 580d34e90a8e47a6b1b45e3a27f3f554
-      size: 120
+      md5: b687c072f6f117dc453e3464c40c02a8
+      size: 121
     - path: pipeline_outs/results/train-plots.json
-      md5: 12a5c2ea4f456e366c25613f30b9e8c0
-      size: 1223
+      md5: ef7db61437842db99b4232ee57cea470
+      size: 2418
     - path: pipeline_outs/results/train-results.json
-      md5: e4f100f879a0b31a234de5460a384853
+      md5: 3b20540913c01bd14c0577f71c52ad7e
       size: 156
