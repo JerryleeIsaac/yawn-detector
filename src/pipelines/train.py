@@ -138,7 +138,7 @@ def train_model(data_loader, model, criterion, optimizer, scheduler, device):
             loss = criterion(outputs, labels)
 
             loss.backward()
-            losses.append({"loss": loss.item()})
+            losses.append(loss.item())
             optimizer.step()
 
             y_actuals.extend(labels.cpu().numpy().tolist())
@@ -227,7 +227,7 @@ def save_losses(losses, results_dir, losses_file):
     logger.info(f"Saving losses to {losses_file}")
 
     with open(losses_file, "w") as f:
-        json.dump(losses, f)
+        json.dump([{"loss": loss} for loss in losses], f)
 
 def save_plots(plots, results_dir, plots_file):
     os.makedirs(results_dir, exist_ok=True) 
