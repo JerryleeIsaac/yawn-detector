@@ -19,7 +19,7 @@ fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 @st.cache(allow_output_mutation=True)
 def load_model(model_file):
-	model = tv.models.resnet50()
+	model = tv.models.resnet101()
 	model.fc = torch.nn.Linear(in_features=2048, out_features=2)
 	model.load_state_dict(torch.load(model_file, map_location=DEVICE))
 	model.to(DEVICE)
