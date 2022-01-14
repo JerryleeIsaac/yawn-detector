@@ -24,7 +24,7 @@ train:
   test_data_files_zip: pipeline_outs/faces/test.zip
 
   model_criterion: CrossEntropy
-  model_type: MobileNetV3
+  model_type: ResNet101
   model_params:
     pretrained: false
   optimizer_type: SGD
@@ -40,7 +40,7 @@ train:
 
   input_size: 128
   epochs: 20
-  batch_size: 128
+  batch_size: 64
   n_workers: 8
 
   ################################
