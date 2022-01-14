@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: 3b26ea1998bd9baa3759b386d1b5eefc
-      size: 17022737
+      md5: 95253fabf2c6f44f8c50d4bcc1e94143
+      size: 94365249
     - path: pipeline_outs/results/losses.json
-      md5: 86e94f3fb023ae651908214adedcef9c
-      size: 77464
+      md5: c722ba4d6412c953572488a8119aab96
+      size: 76860
     - path: pipeline_outs/results/test-plots.json
-      md5: 604bebf6d3657e0ead0239746e7590c3
-      size: 2447
+      md5: 4869d62cc5c9e3815477c3e37aa6a655
+      size: 2456
     - path: pipeline_outs/results/test-results.json
-      md5: ee580bb3f0538e9443f01bd43661d0ea
-      size: 121
+      md5: 0c1ec464b35cbe78cd5e6088b293f3fc
+      size: 120
     - path: pipeline_outs/results/train-plots.json
-      md5: 5fa92026962d35dc71dc08f96722966c
-      size: 2394
+      md5: 740a53f165366e1c94a0ad241989cbc5
+      size: 2451
     - path: pipeline_outs/results/train-results.json
-      md5: 6dc01093da1582840a84d3308085b058
-      size: 142
+      md5: 6fcb70f970e3115f0cea873a2657f99a
+      size: 156
