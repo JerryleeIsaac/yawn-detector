@@ -2,6 +2,11 @@
 
 <img src="docs/demo.gif" height="80%" width="80%">
 
+
+CS 284 Mini Project.
+
+Developed an ML model that detects if a person is yawning. The model can be applied in diverse scenarios, from identifying drowsy drivers to evaluating audience engagement during lectures and presentations.
+
 # Setup
 
 ## Installation
