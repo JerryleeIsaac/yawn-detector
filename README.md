@@ -1,5 +1,7 @@
 # Yawn Detector
 
+<img src="docs/demo.gif" height="80%" width="80%">
+
 # Setup
 
 ## Installation
@@ -10,6 +12,11 @@
 4. Install poetry. Please see guide here: https://python-poetry.org/docs/
 5. Install cmake: `apt-get install cmake build-essential`
 5. Run `make dev`
+
+# Streamlit app
+
+1. Run `dvc pull` to download latest model weights from dvc cloud.
+2. Run `make run` to launch streamlit app.
 
 
 # ML Model
