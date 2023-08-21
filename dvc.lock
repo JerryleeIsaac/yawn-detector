@@ -23,15 +23,15 @@ stages:
           test_data_files_zip: pipeline_outs/faces/test.zip
     outs:
     - path: pipeline_outs/faces
-      md5: 08af58202fd1b65b592ff81a14406bb0.dir
-      size: 2780343961
+      md5: df25d92727ee8787d27a8b04f15d5b20.dir
+      size: 2780357987
       nfiles: 2
   train:
     cmd: python -m src.pipelines.train --params params.yaml
     deps:
     - path: pipeline_outs/faces
-      md5: 08af58202fd1b65b592ff81a14406bb0.dir
-      size: 2780343961
+      md5: df25d92727ee8787d27a8b04f15d5b20.dir
+      size: 2780357987
       nfiles: 2
     - path: src/pipelines/train.py
       md5: 5860b8873b113534c117336b97416f12
@@ -71,20 +71,20 @@ stages:
           losses_file: pipeline_outs/results/losses.json
     outs:
     - path: pipeline_outs/models/latest-model.pth
-      md5: 8bc4005d755e970fd60393a86c49975e
+      md5: 0e909eeda2caff8ef81622ce7694051a
       size: 170643229
     - path: pipeline_outs/results/losses.json
-      md5: f50f2d506fc4caf9df04cbd0e21381ce
-      size: 156652
+      md5: 2df1f7b894fd5670fbab470a9d0a3128
+      size: 155596
     - path: pipeline_outs/results/test-plots.json
-      md5: 4bd6b066b8c80db3efb04f10d99cb733
-      size: 2449
+      md5: 07ae037139a47d1836d70dc3c9871a90
+      size: 2444
     - path: pipeline_outs/results/test-results.json
-      md5: b687c072f6f117dc453e3464c40c02a8
-      size: 121
+      md5: c069e3a13ebb5953ec8694a9cc707772
+      size: 119
     - path: pipeline_outs/results/train-plots.json
-      md5: ef7db61437842db99b4232ee57cea470
-      size: 2418
+      md5: 7b1d8699f618c6d03a2d83cf1199e6d1
+      size: 2447
     - path: pipeline_outs/results/train-results.json
-      md5: 3b20540913c01bd14c0577f71c52ad7e
-      size: 156
+      md5: 48b0e48683a44d8582fec32f7ffe4bbe
+      size: 140
